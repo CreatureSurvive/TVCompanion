@@ -1,5 +1,11 @@
 # TVCompanion
 
+[![CI](https://github.com/CreatureSurvive/TVCompanion/actions/workflows/ci.yml/badge.svg)](https://github.com/CreatureSurvive/TVCompanion/actions/workflows/ci.yml)
+[![Swift 6.0+](https://img.shields.io/badge/Swift-6.0+-F05138?logo=swift&logoColor=white)](https://swift.org)
+[![Platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20macOS%20%7C%20tvOS%20%7C%20visionOS-blue)](#requirements)
+[![Swift Package Manager](https://img.shields.io/badge/SwiftPM-compatible-brightgreen)](#installation)
+[![License: MIT](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
+
 "Type on your iPhone" for Apple TV apps: secure local pairing between a tvOS app and its iOS
 companion, so users can type text, send passwords from AutoFill, or control the TV app from
 their phone.
@@ -131,11 +137,30 @@ for await request in session.requests where request.type == "status" {
 
 ## Installation
 
+Add TVCompanion to your `Package.swift`:
+
 ```swift
-.package(url: "https://github.com/CreatureSurvive/TVCompanion.git", from: "1.0.0")
+dependencies: [
+    .package(url: "https://github.com/CreatureSurvive/TVCompanion.git", from: "1.0.0"),
+],
+targets: [
+    .target(name: "MyApp", dependencies: ["TVCompanion"]),
+]
 ```
 
-Requires Swift 6 and tvOS 17, iOS 17, macOS 14 or visionOS 1.
+Or in Xcode, choose **File › Add Package Dependencies…** and enter
+`https://github.com/CreatureSurvive/TVCompanion`.
+
+### Requirements
+
+| Platform | Minimum |
+| --- | --- |
+| iOS | 17.0 |
+| macOS | 14.0 |
+| tvOS | 17.0 |
+| visionOS | 1.0 |
+
+Swift 6.0 (Xcode 16) or later, in Swift 6 language mode. No third-party dependencies.
 
 ## Testing
 
@@ -170,6 +195,15 @@ network.
 - The phone app has to be running (foreground) to answer requests.
 - Device names are sent in the clear during the handshake. Everything after it is encrypted.
 
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md). Releases follow [Semantic Versioning](https://semver.org).
+
+## Contributing
+
+Issues and pull requests are welcome. Please run `swift test` before opening a pull request, and
+add tests for new behavior. Report security issues privately; see [SECURITY.md](SECURITY.md).
+
 ## License
 
-MIT
+Available under the MIT license. See [LICENSE](LICENSE) for details.
