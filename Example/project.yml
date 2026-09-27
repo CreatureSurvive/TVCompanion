@@ -1,0 +1,73 @@
+name: TVCompanionDemo
+options:
+  bundleIdPrefix: com.creaturesurvive
+settings:
+  base:
+    DEVELOPMENT_TEAM: RUMWXF5QY3
+    CODE_SIGN_STYLE: Automatic
+    SWIFT_VERSION: "6.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+packages:
+  TVCompanion:
+    path: ..
+targets:
+  DemoTV:
+    type: application
+    platform: tvOS
+    deploymentTarget: "17.0"
+    sources: [DemoTV]
+    dependencies:
+      - package: TVCompanion
+    info:
+      path: DemoTV/Info.plist
+      properties:
+        CFBundleDisplayName: Companion TV
+        UILaunchScreen: {}
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.creaturesurvive.TVCompanionDemo.tv
+  DemoPhone:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources: [DemoPhone]
+    dependencies:
+      - package: TVCompanion
+    info:
+      path: DemoPhone/Info.plist
+      properties:
+        CFBundleDisplayName: Companion
+        UILaunchScreen: {}
+        NSLocalNetworkUsageDescription: Finds your Apple TV so you can type on it from your iPhone.
+        NSBonjourServices: [_tvcdemo._tcp]
+        CFBundleURLTypes:
+          - CFBundleURLSchemes: [tvcompaniondemo]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.creaturesurvive.TVCompanionDemo.phone
+  DemoTVUITests:
+    type: bundle.ui-testing
+    platform: tvOS
+    deploymentTarget: "17.0"
+    sources: [DemoTVUITests]
+    dependencies:
+      - target: DemoTV
+      - package: TVCompanion
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.creaturesurvive.TVCompanionDemo.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: DemoTV
+schemes:
+  DemoTV:
+    build:
+      targets:
+        DemoTV: all
+        DemoTVUITests: [test]
+    test:
+      targets: [DemoTVUITests]
+  DemoPhone:
+    build:
+      targets:
+        DemoPhone: all
