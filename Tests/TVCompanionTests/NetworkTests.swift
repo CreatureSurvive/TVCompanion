@@ -98,6 +98,30 @@ struct NetworkTests {
         answering.cancel()
     }
 
+    /// The code-entry view cancels its attempt when it disappears, which
+    /// happens right after pairing succeeds.
+    @Test func cancellingAFinishedAttemptKeepsTheSession() async throws {
+        let host = try await startHost()
+        defer { host.stop() }
+        let client = CompanionClient(name: "Phone", serviceType: serviceType, store: InMemoryPairingStore())
+        host.openPairing()
+        try await waitFor { host.pairingState == .waiting }
+        let attempt = client.pair(endpoint: endpoint(host))
+        _ = try await attempt.codeRequested()
+        let code = try await shownCode(host)
+        async let paired = attempt.submit(code: code)
+        host.confirmPairing()
+        let session = try await paired
+        await attempt.cancel()
+
+        let answering = Task {
+            for await request in session.requests { try await request.respond(text: "still connected") }
+        }
+        try await waitFor { host.connectedDevices.count == 1 }
+        #expect(try await host.requestText(TextInputRequest(prompt: "Check")) == "still connected")
+        answering.cancel()
+    }
+
     @Test func wrongCodeCanBeRetried() async throws {
         let host = try await startHost()
         defer { host.stop() }

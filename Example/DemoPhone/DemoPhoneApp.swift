@@ -13,7 +13,7 @@ struct PhoneView: View {
     @State private var session: CompanionSession?
     @State private var pairing: PairingAttempt?
     @State private var error: String?
-    private let companion = CompanionClient(name: UIDevice.current.name, serviceType: "_tvcdemo._tcp", store: KeychainPairingStore(service: "TVCompanionDemo"))
+    private let companion = CompanionClient(name: ProcessInfo.processInfo.arguments.contains("-testing") ? "Dan's iPhone" : UIDevice.current.name, serviceType: "_tvcdemo._tcp", store: ProcessInfo.processInfo.arguments.contains("-testing") ? InMemoryPairingStore() : KeychainPairingStore(service: "TVCompanionDemo"))
 
     var body: some View {
         NavigationStack {

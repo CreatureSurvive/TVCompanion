@@ -7,13 +7,14 @@ struct DemoTVApp: App {
         name: ProcessInfo.processInfo.arguments.contains("-testing") ? "Test TV" : "Living Room",
         serviceType: "_tvcdemo._tcp",
         linkScheme: "tvcompaniondemo",
-        store: ProcessInfo.processInfo.arguments.contains("-testing") ? InMemoryPairingStore() : KeychainPairingStore(service: "TVCompanionDemo")
+        store: ProcessInfo.processInfo.arguments.contains("-testing") || ProcessInfo.processInfo.arguments.contains("-screenshots") ? InMemoryPairingStore() : KeychainPairingStore(service: "TVCompanionDemo")
     )
 
     var body: some Scene {
         WindowGroup {
             ContentView(companion: companion)
                 .task { try? companion.start() }
+                .preferredColorScheme(ProcessInfo.processInfo.arguments.contains("-dark") ? .dark : nil)
         }
     }
 }

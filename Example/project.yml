@@ -59,6 +59,23 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.creaturesurvive.TVCompanionDemo.uitests
         GENERATE_INFOPLIST_FILE: YES
         TEST_TARGET_NAME: DemoTV
+  DemoPhoneUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources: [DemoPhoneUITests]
+    dependencies:
+      - target: DemoPhone
+      - package: TVCompanion
+    info:
+      path: DemoPhoneUITests/Info.plist
+      properties:
+        NSLocalNetworkUsageDescription: Plays the Apple TV in UI tests.
+        NSBonjourServices: [_tvcdemo._tcp]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.creaturesurvive.TVCompanionDemo.phoneuitests
+        TEST_TARGET_NAME: DemoPhone
 schemes:
   DemoTV:
     build:
@@ -71,3 +88,6 @@ schemes:
     build:
       targets:
         DemoPhone: all
+        DemoPhoneUITests: [test]
+    test:
+      targets: [DemoPhoneUITests]

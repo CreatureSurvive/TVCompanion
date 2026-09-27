@@ -249,8 +249,10 @@ public actor PairingAttempt {
         return try await withCheckedThrowingContinuation { resultWaiters.append($0) }
     }
 
-    /// Abandons the pairing.
+    /// Abandons the pairing. Does nothing once pairing has finished, so
+    /// the session it produced stays connected.
     public func cancel() {
+        guard result == nil else { return }
         codeWaiter?.resume(throwing: CancellationError())
         codeWaiter = nil
         transport?.close()

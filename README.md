@@ -18,6 +18,18 @@ let address = try await companion.requestText(TextInputRequest(prompt: "Server A
 ContentView().companionRequests(from: session)
 ```
 
+<p align="center">
+  <img src="Screenshots/tv-pairing.jpg" alt="The Apple TV pairing screen with a QR code" width="49%">
+  <img src="Screenshots/tv-confirm.jpg" alt="The Apple TV showing a six-digit code with Confirm and Cancel buttons" width="49%">
+</p>
+<p align="center">
+  <img src="Screenshots/phone-code.png" alt="The iPhone code-entry sheet with the number pad" width="260">
+  &nbsp;&nbsp;
+  <img src="Screenshots/phone-credentials.png" alt="The iPhone sign-in sheet answering the TV's credential request" width="260">
+</p>
+<p align="center"><sub>Pairing on the TV, code entry on the phone, and the phone answering the TV's sign-in request.</sub></p>
+
+
 ## Why
 
 Typing on Apple TV is painful. Server addresses, usernames and passwords are the worst part of
@@ -164,7 +176,7 @@ Swift 6.1 (Xcode 16.4) or later, in Swift 6 language mode. No third-party depend
 
 ## Testing
 
-- `swift test` runs 32 tests:
+- `swift test` runs 33 tests:
   - the protocol, attacked as described above, over in-memory transports
   - end-to-end host and client tests over real TCP on this machine: code pairing with TV
     confirmation, a wrong code and retry, TV rejection, pairing closed by default, QR pairing
@@ -188,6 +200,8 @@ xcodebuild test -project TVCompanionDemo.xcodeproj -scheme DemoTV \
 
 To try it on hardware, run `DemoTV` on an Apple TV and `DemoPhone` on an iPhone on the same
 network.
+
+The README screenshots are captured by UI tests in `Example/`; `Scripts/screenshots.sh` regenerates them.
 
 ## Limitations
 
